@@ -12,14 +12,86 @@ require File.expand_path(File.dirname(__FILE__) + '/edgecase')
 # missing handler and any other supporting methods.  The specification
 # of the Proxy class is given in the AboutProxyObjectProject koan.
 
+# class Proxy
+#   attr_reader :messages
+#   def initialize(target_object)
+#     @object = target_object
+#     # ADD MORE CODE HERE
+#     @messages = []
+#   end
+
+#   # WRITE CODE HERE
+#   def method_missing(method_name, *args, &block)
+#     @messages << method_name
+#     @object.send(method_name, *args, &block)
+#   end
+
+#   def called?(message)
+#     @messages.include?(message)
+#   end
+
+#   def number_of_times_called(message)
+#     @messages.count(message)
+#   end
+# end
+
+# class Television
+#   attr_accessor :channel
+
+#   def power
+#     if @power == :on
+#       @power = :off
+#     else
+#       @power = :on
+#     end
+#   end
+
+#   def on?
+#     @power == :on
+#   end
+# end
 class Proxy
+  attr_reader :messages, :number_of_times_called
   def initialize(target_object)
     @object = target_object
-    # ADD MORE CODE HERE
+    @messages = [] 
   end
 
   # WRITE CODE HERE
+
+  def method_missing(method, *args, &block)
+    @messages << method
+    @object.send(method, *args, &block)
+  end
+
+  def number_of_times_called(method)
+    @messages.count(method)
+  end
+
+  def called?(method)
+    @messages.include?(method)
+  end
+
 end
+
+class Television
+  attr_accessor :channel
+
+  def power
+    if @power == :on
+      @power = :off
+    else
+      @power = :on
+    end
+  end
+
+  def on?
+    @power == :on
+  end
+end
+
+
+
 
 # The proxy object should pass the following Koan:
 #
